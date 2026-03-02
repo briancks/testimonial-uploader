@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "Bash(npx create-next-app@latest:*)",
+      "Bash(npm init:*)",
+      "Bash(npm install:*)",
+      "Bash(mkdir:*)",
+      "Bash(npx prisma:*)",
+      "Bash(export:*)",
+      "Bash(curl:*)",
+      "Bash(netstat:*)",
+      "Bash(rm:*)",
+      "Bash(gcloud:*)",
+      "Bash(CLOUDSDK_PYTHON_SITEPACKAGES=0 gcloud version:*)",
+      "Bash(pyenv versions:*)",
+      "Bash(pyenv global:*)",
+      "Bash(where docker:*)",
+      "Bash(gh auth:*)"
+    ]
+  }
+}

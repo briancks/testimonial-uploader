@@ -1,0 +1,6 @@
+dbs:
+  - path: /app/data/testimonials.db
+    replicas:
+      - type: gcs
+        bucket: ${GCS_BUCKET_NAME}
+        path: testimonials.db

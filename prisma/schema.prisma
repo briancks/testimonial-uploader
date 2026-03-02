@@ -1,0 +1,21 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Testimonial {
+  id               String   @id @default(cuid())
+  name             String
+  course           String
+  headshotDriveId  String?
+  headshotDriveUrl String?
+  videoDriveId     String?
+  videoDriveUrl    String?
+  transcript       String?
+  status           String   @default("processing") // processing | completed | failed
+  createdAt        DateTime @default(now())
+}
