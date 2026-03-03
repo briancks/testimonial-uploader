@@ -16,7 +16,9 @@
       "Bash(pyenv versions:*)",
       "Bash(pyenv global:*)",
       "Bash(where docker:*)",
-      "Bash(gh auth:*)"
+      "Bash(gh auth:*)",
+      "Bash(gh repo:*)",
+      "Bash(npx next:*)"
     ]
   }
 }

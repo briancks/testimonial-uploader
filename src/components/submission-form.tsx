@@ -102,7 +102,7 @@ export default function SubmissionForm() {
           onChange={(e) => setCourse(e.target.value)}
           disabled={formState === "submitting"}
           className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 disabled:opacity-50"
-          placeholder="Web Development Bootcamp"
+          placeholder="New Insight into the Hebrew Bible"
         />
       </div>
 
@@ -168,6 +168,11 @@ export default function SubmissionForm() {
           This may take a minute.
         </p>
       )}
+
+      <p className="text-center text-xs text-gray-400">
+        By submitting this testimonial, you give Paths in Biblical Studies the
+        right to use it and your name in our marketing materials.
+      </p>
     </form>
   );
 }

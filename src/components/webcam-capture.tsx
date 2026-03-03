@@ -91,6 +91,21 @@ export default function WebcamCapture({
     };
   }, []);
 
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleFileUpload = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0];
+      if (!file) return;
+      const url = URL.createObjectURL(file);
+      if (previewUrl) URL.revokeObjectURL(previewUrl);
+      setPreviewUrl(url);
+      onCapture(file);
+      stopCamera();
+    },
+    [previewUrl, onCapture, stopCamera]
+  );
+
   const showLive = isStreaming && !previewUrl;
   const showPreview = !!previewUrl;
 
@@ -103,13 +118,29 @@ export default function WebcamCapture({
       {error && <p className="text-sm text-red-600">{error}</p>}
 
       {!isStreaming && !showPreview && !captured && (
-        <button
-          type="button"
-          onClick={startCamera}
-          className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
-        >
-          Open Camera
-        </button>
+        <div className="flex flex-wrap gap-2">
+          <button
+            type="button"
+            onClick={startCamera}
+            className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
+          >
+            Open Camera
+          </button>
+          <button
+            type="button"
+            onClick={() => fileInputRef.current?.click()}
+            className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+          >
+            Upload Photo
+          </button>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            onChange={handleFileUpload}
+            className="hidden"
+          />
+        </div>
       )}
 
       {/* Always render the video element so the ref is available, hide when not needed */}

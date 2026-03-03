@@ -21,7 +21,7 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV PORT=8080
 ENV HOSTNAME=0.0.0.0
-ENV DATABASE_URL=file:./data/testimonials.db
+ENV DATABASE_URL=file:/app/data/testimonials.db
 
 # Install Litestream
 RUN apk add --no-cache ca-certificates wget && \
@@ -47,8 +47,8 @@ COPY litestream.yml /etc/litestream.yml
 COPY entrypoint.sh ./entrypoint.sh
 RUN chmod +x entrypoint.sh
 
-# Create data directory
-RUN mkdir -p data && chown -R nextjs:nodejs data
+# Create data directory and ensure seed is readable
+RUN mkdir -p data && chown -R nextjs:nodejs data && chmod 644 seed.db
 
 USER nextjs
 
