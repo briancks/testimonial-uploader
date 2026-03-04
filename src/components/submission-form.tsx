@@ -92,7 +92,8 @@ export default function SubmissionForm() {
           htmlFor="course"
           className="block text-sm font-medium text-gray-700"
         >
-          Course Name
+          Is this testimonial for BSA, an event such as NINT or NIHB, or a
+          course? (If a course, insert the course name)
         </label>
         <input
           id="course"
