@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { createSubfolder, uploadFile } from "@/lib/google-drive";
 import { transcribeVideo } from "@/lib/gemini";
+import { trackEvent } from "@/lib/nexus";
 
 export async function POST(request: NextRequest) {
   let testimonialId: string | null = null;
@@ -81,6 +82,14 @@ export async function POST(request: NextRequest) {
         transcript,
         status: "completed",
       },
+    });
+
+    await trackEvent("testimonial_submitted", {
+      video_mime_type: video.type || "unknown",
+      video_size_bytes: videoBuffer.byteLength,
+      headshot_size_bytes: headshotBuffer.byteLength,
+      transcript_ok: transcript !== "Transcription failed - manual review needed",
+      transcript_length: transcript.length,
     });
 
     return NextResponse.json(updated, { status: 201 });
