@@ -4,7 +4,7 @@ import { useState, FormEvent } from "react";
 import WebcamCapture from "./webcam-capture";
 import VideoRecorder from "./video-recorder";
 
-const MAX_VIDEO_BYTES = 500 * 1024 * 1024;
+const MAX_VIDEO_BYTES = 25 * 1024 * 1024;
 
 type FormState = "form" | "submitting" | "success" | "error";
 
@@ -24,7 +24,7 @@ export default function SubmissionForm() {
     if (!isReady) return;
 
     if (video && video.size > MAX_VIDEO_BYTES) {
-      setErrorMsg("Video is too large (max 500MB). Please re-record a shorter clip.");
+      setErrorMsg("Video is too large to upload (max ~25MB). Please record a shorter clip.");
       setFormState("error");
       return;
     }

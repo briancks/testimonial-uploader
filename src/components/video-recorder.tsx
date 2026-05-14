@@ -100,8 +100,12 @@ export default function VideoRecorder({
 
     chunksRef.current = [];
     const mimeType = getSupportedMimeType();
+    // Keep the encoded 2-min clip comfortably under the Cloud Run 32 MiB
+    // request body limit: 1.5 Mbps video + 96 kbps audio ≈ 24 MB at 120s.
     const recorder = new MediaRecorder(streamRef.current, {
       mimeType: mimeType || undefined,
+      videoBitsPerSecond: 1_500_000,
+      audioBitsPerSecond: 96_000,
     });
 
     recorder.ondataavailable = (e) => {
