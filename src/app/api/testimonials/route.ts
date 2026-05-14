@@ -105,7 +105,7 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json(
-      { error: "Failed to process submission" },
+      { error: "We couldn't save your testimonial. Please try again in a moment." },
       { status: 500 }
     );
   }
