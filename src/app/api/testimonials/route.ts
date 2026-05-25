@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { createSubfolder, uploadFile } from "@/lib/google-drive";
 import { transcribeVideo } from "@/lib/gemini";
 import { trackEvent } from "@/lib/nexus";
+import { notifyTestimonialSubmitted } from "@/lib/slack";
 
 export async function POST(request: NextRequest) {
   let testimonialId: string | null = null;
@@ -90,6 +91,13 @@ export async function POST(request: NextRequest) {
       headshot_size_bytes: headshotBuffer.byteLength,
       transcript_ok: transcript !== "Transcription failed - manual review needed",
       transcript_length: transcript.length,
+    });
+
+    await notifyTestimonialSubmitted({
+      name,
+      course,
+      transcript,
+      adminUrl: `${request.nextUrl.origin}/admin/${updated.id}`,
     });
 
     return NextResponse.json(updated, { status: 201 });
