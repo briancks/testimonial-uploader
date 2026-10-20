@@ -84,3 +84,22 @@ export async function uploadFile(
 
   return { id: fileId, url };
 }
+
+export async function downloadFile(
+  fileId: string
+): Promise<{ buffer: Buffer; mimeType: string | null }> {
+  const drive = getDrive();
+
+  const [meta, media] = await Promise.all([
+    drive.files.get({ fileId, supportsAllDrives: true, fields: "mimeType" }),
+    drive.files.get(
+      { fileId, supportsAllDrives: true, alt: "media" },
+      { responseType: "arraybuffer" }
+    ),
+  ]);
+
+  return {
+    buffer: Buffer.from(media.data as ArrayBuffer),
+    mimeType: meta.data.mimeType ?? null,
+  };
+}

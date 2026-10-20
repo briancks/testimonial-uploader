@@ -1,5 +1,6 @@
 import Link from "next/link";
-import type { TestimonialRecord } from "@/types";
+import { TRANSCRIPTION_FAILED, type TestimonialRecord } from "@/types";
+import RetryTranscriptionButton from "./retry-transcription-button";
 
 interface Props {
   testimonial: TestimonialRecord;
@@ -119,6 +120,9 @@ export default function TestimonialDetail({ testimonial: t }: Props) {
                 ? "Transcript is being generated..."
                 : "No transcript available"}
             </p>
+          )}
+          {t.transcript === TRANSCRIPTION_FAILED && t.videoDriveId && (
+            <RetryTranscriptionButton testimonialId={t.id} />
           )}
         </div>
       </div>

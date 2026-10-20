@@ -12,3 +12,5 @@ export interface TestimonialRecord {
 }
 
 export type TestimonialStatus = "processing" | "completed" | "failed";
+
+export const TRANSCRIPTION_FAILED = "Transcription failed - manual review needed";
