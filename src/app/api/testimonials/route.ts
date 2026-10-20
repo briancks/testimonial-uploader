@@ -5,6 +5,18 @@ import { transcribeVideo } from "@/lib/gemini";
 import { trackEvent } from "@/lib/nexus";
 import { notifyTestimonialSubmitted } from "@/lib/slack";
 
+// Behind Cloud Run, request.nextUrl.origin is the container's bind address
+// (http://0.0.0.0:8080), so build public links from the Host header instead.
+function publicOrigin(request: NextRequest): string {
+  const host = request.headers.get("host");
+  if (!host) return request.nextUrl.origin;
+  const proto =
+    request.headers.get("x-forwarded-proto") === "https"
+      ? "https"
+      : request.nextUrl.protocol.replace(":", "");
+  return `${proto}://${host}`;
+}
+
 export async function POST(request: NextRequest) {
   let testimonialId: string | null = null;
 
@@ -97,7 +109,7 @@ export async function POST(request: NextRequest) {
       name,
       course,
       transcript,
-      adminUrl: `${request.nextUrl.origin}/admin/${updated.id}`,
+      adminUrl: `${publicOrigin(request)}/admin/${updated.id}`,
     });
 
     return NextResponse.json(updated, { status: 201 });
